@@ -2,6 +2,13 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Fearne's Notes
+ - Started project with create react app, for a small tech tech proof of concept I though create react app is okay down to scope of project.
+    - If the project had a longer runway I would consider using next.js if I felt some of the advanced featured would be used. However for a small proejct I think this is suitable as a way to hit the ground running.
+
+ - I also used an example of using CRA with react flow to get started quickly, and get to use my time on the more meaningful code.
+ - https://github.com/wbkd/react-flow-example-apps/tree/main/reactflow-create-react-app
+
 ## Available Scripts
 
 In the project directory, you can run:
