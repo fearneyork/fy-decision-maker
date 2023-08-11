@@ -3,6 +3,8 @@ import ReactFlow, {
   addEdge,
   useNodesState,
   useEdgesState,
+  Controls,
+  Background,
   type Connection,
   type Edge,
   type Node,
@@ -56,7 +58,6 @@ function Flow() {
     (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
-
   return (
     <div className="Flow">
       <ReactFlow
@@ -67,7 +68,10 @@ function Flow() {
         onConnect={onConnect}
         fitView
         nodeTypes={nodeTypes}
-      />
+      >
+        <Controls />
+        <Background />
+      </ReactFlow>
     </div>
   );
 }
