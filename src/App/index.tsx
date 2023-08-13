@@ -1,4 +1,4 @@
-import Flow from '../Flow';
+import {Flow} from '../Flow';
 
 import './App.css';
 

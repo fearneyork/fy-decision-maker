@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import Flow from '.';
+import {Flow} from '.';
 
 const wrapperStyle = { height: 500 };
 
