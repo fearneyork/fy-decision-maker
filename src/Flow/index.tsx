@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import ReactFlow, {
   addEdge,
   useNodesState,
@@ -8,24 +8,14 @@ import ReactFlow, {
   type Connection,
   type Edge,
   type Node,
+  applyNodeChanges,
 } from 'reactflow';
-import {CustomNodes} from './CustomNode';
+import { CustomNodes } from './CustomNode';
 import 'reactflow/dist/style.css';
 import './Flow.css';
 
-// const generateInitialEdges = (initialInputNodes: Node[], initialChoiceNodes: Node[]): Edge[] => {
-// const initialEdges = initialInputNodes.map((inputNode) => {
-//   console.log('NODE', inputNode);
-// // { id: `e-i1-c1`, source: `i1`, target: `c1`, animated: false, label: `I'm a label`, type: `smooth-step` },
-// });
-// console.log(initialEdges);
-// return [
-//   { id: `e-i1-c1`, source: `1`, target: `c1`, animated: false, label: `I'm a label`, type: `smooth-step` },
-//   // { id: `e-i1-c2`, source: `i1`, target: `c2`, animated: false, label: `I'm a label`, type: `smooth-step` },
-//   // { id: `e-i1-c3`, source: `i1`, target: `c2`, animated: false, label: `I'm a label`, type: `smooth-step` },
-//   // { id: `e-i1-c4`, source: `i1`, target: `c2`, animated: false, label: `I'm a label`, type: `smooth-step` },
-// ]
-// };
+import useStore, { RFState } from './data/store';
+import { shallow } from 'zustand/shallow';
 
 const nodeTypes = {
   customInput: CustomNodes.Input,
@@ -33,81 +23,69 @@ const nodeTypes = {
   customOutput: CustomNodes.Output,
 };
 
-const initialInputNodes: Node[] = [
-  {
-    id: '1',
-    type: 'customInput',
-    data: { label: 'Calories' },
-    position: { x: 0, y: 150 },
-  },
-  {
-    id: '2',
-    type: 'customInput',
-    data: { label: 'Cost' },
-    position: { x: 200, y: 150 },
-  },
-    {
-    id: '3',
-    type: 'customInput',
-    data: { label: 'Protein' },
-    position: { x: 400, y: 150 },
-  },
-  {
-    id: '4',
-    type: 'customInput',
-    data: { label: 'Taste' },
-    position: { x: 600, y: 150 },
-  },
-];
+const selector = (state: RFState) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+});
 
-const initialChoiceNodes: Node[] = [
-  {
-    id: '11',
-    type: 'customChoice',
-    data: { label: 'Lasagne' },
-    position: { x: 0, y: 300 },
-  },
-    {
-    id: '12',
-    type: 'customChoice',
-    data: { label: 'Ham and Cheese Toastie' },
-    position: { x: 200, y: 300 },
-  },
-    {
-    id: '13',
-    type: 'customChoice',
-    data: { label: 'Fried Chicken' },
-    position: { x: 400, y: 300 },
-  },
-    {
-    id: '14',
-    type: 'customChoice',
-    data: { label: 'Qunioa Salad' },
-    position: { x: 600, y: 300 },
-  },
-];
-
-const initialOutputNode: Node =   {
-    id: '21',
-    type: 'customOutput',
-    data: { label: 'Output' },
-    position: { x: 300, y: 550 },
-  }
-
-const initialEdges: Edge[] = [
-  { id: `e-1-11`, source: `1`, target: `11`, animated: false, label: `I'm a label`, type: `smooth-step` },
-  { id: `e-1-12`, source: `1`, target: `12`, animated: false, label: `I'm a label`, type: `smooth-step` },
-  { id: `e-1-13`, source: `1`, target: `13`, animated: false, label: `I'm a label`, type: `smooth-step` },
-  { id: `e-1-14`, source: `1`, target: `14`, animated: false, label: `I'm a label`, type: `smooth-step` },
-];
 
 export const Flow = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([...initialInputNodes, ...initialChoiceNodes, initialOutputNode]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const onConnect = useCallback(
-    (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
+
+  // const [choices, setChoices] = useState({
+  //   lasagne: { calories: '0', cost: '0', protein: '0', taste: '0', score: '0' },
+  //   toastie: { calories: '0', cost: '0', protein: '0', taste: '0', score: '0' },
+  //   chicken: { calories: '0', cost: '0', protein: '0', taste: '0', score: '0' },
+  //   salad: { calories: '0', cost: '0', protein: '0', taste: '0', score: '0' }
+  // })
+
+  // const [weight, setWeight] = useState({ calories: '10', cost: '10', protein: '10', taste: '10' })
+
+  // const weightChangeHandler = (name: string) => {
+  //   return (event: ChangeEvent<HTMLInputElement>) => {
+  //     setWeight({ ...weight, [name]: event.target.value });
+  //   };
+  // };
+
+  // const [nodes, setNodes, onNodesChange] = useNodesState([...initialInputNodes, ...initialChoiceNodes, initialOutputNode]);
+  // const [edges, setEdges, onEdgesChange] = useEdgesState(generateInitialEdges(initialInputNodes, initialChoiceNodes, initialOutputNode));
+
+
+  // const choicesChangeHandler = (name: string, value: string,) => {
+  //   console.log('choices', name, value);
+
+  //   return (event: ChangeEvent<HTMLInputElement>) => {
+  //     console.log('in return', event.target.value);
+
+  //     // setChoices({
+  //     //   ...choices,
+  //     //   'toastie': {
+  //     //     ...choices.toastie,
+  //     //     'calories': '3'
+  //     //   }
+
+  //     // }
+  //     setChoices({
+  //       ...choices,
+  //       'toastie': {
+  //         ...choices.toastie,
+  //         'calories': event.target.value
+  //       }
+
+  //     }
+  //     );
+  //     applyNodeChanges(changes, nodes)
+  //   };
+  // };
+
+  // const onConnect = useCallback(
+  //   (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
+  //   [setEdges]
+  // );
+
   return (
     <div className="Flow">
       <ReactFlow
@@ -118,6 +96,7 @@ export const Flow = () => {
         onConnect={onConnect}
         fitView
         nodeTypes={nodeTypes}
+
       >
         <Controls />
         <Background />
