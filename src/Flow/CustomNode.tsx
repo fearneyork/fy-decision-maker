@@ -1,7 +1,10 @@
-import { memo, type FC, useState, ChangeEvent } from 'react';
-import { Handle, Position, type NodeProps, type Node } from 'reactflow';
+import { memo, type FC } from 'react';
+import { Handle, Position, type NodeProps } from 'reactflow';
 import styled from 'styled-components';
 import useStore from './data/store';
+
+const SOURCEFUL_GREY = `#404044`;
+const SOURCEFUL_BLUE = `#005AE1`;
 
 const NodeContainer = styled.div`
   display: flex;
@@ -11,9 +14,10 @@ const NodeContainer = styled.div`
   height: 100%;
   width: 175px;
   background: #FFF;
-  border: 2px solid #303030;
-  border-radius: 5px;
+  border: 2px solid ${SOURCEFUL_BLUE};
+  border-radius: 8px;
   padding: 5px;
+  box-shadow: rgba(64, 64, 68, 0.3) 0px 1px 8px 0px;
 `;
 
 const InputHandle = styled(Handle)`
@@ -21,7 +25,8 @@ const InputHandle = styled(Handle)`
 `;
 
 const NodeTitle = styled.h2`
-  font-size: 18px;
+  font-size: 20px;
+  color: ${SOURCEFUL_GREY};
   margin-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -37,9 +42,11 @@ const InputFieldContainer = styled.div`
   `;
 
 const BodyText = styled.p`
-  font-size: 14px;
+  font-size: 16px;
+  color: ${SOURCEFUL_GREY};
   margin: 0px;
   padding: 0px;
+  text-align: center;
   `;
 
 const Input = styled.input`
@@ -53,19 +60,6 @@ const Input = styled.input`
   text-align: center;
 `;
 
-const getInputValue = (id: string): number => {
-  const value = (document.getElementById(id) as HTMLInputElement)?.value;
-  return value ? Number(value) : 0;
-};
-
-const handleChoiceScore = (nodeId: string): number => {
-  const calories = getInputValue(`${nodeId}-calories-input`);
-  const cost = getInputValue(`${nodeId}-cost-input`);
-  const protein = getInputValue(`${nodeId}-protein-input`);
-  const taste = getInputValue(`${nodeId}-taste-input`);
-  return calories + cost + protein + taste;
-};
-
 const InputNode: FC<NodeProps> = ({ id, data }) => {
   const updateWeightValues = useStore((state) => state.updateWeightValues);
   const { label, value } = data;
@@ -75,7 +69,6 @@ const InputNode: FC<NodeProps> = ({ id, data }) => {
       <InputFieldContainer>
         <BodyText>Weighting:</BodyText>
         <Input type="number" defaultValue={value} onChange={(evt) => updateWeightValues(id, evt.target.value)} min={0.1} max={1} maxLength={2} placeholder='1' step={0.1} />
-
         <BodyText>/ 1</BodyText>
       </InputFieldContainer>
       <InputHandle
@@ -136,7 +129,7 @@ const OutputNode: FC<NodeProps> = ({ data }) => {
         type="target"
         position={Position.Top}
       />
-      <NodeTitle>Winner</NodeTitle>
+      <NodeTitle>🥇 Winner 🥇</NodeTitle>
       <BodyText>{`${winner}`}</BodyText>
     </NodeContainer>
   );

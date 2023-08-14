@@ -1,27 +1,6 @@
-import { Node } from 'reactflow';
+import { ChoiceNode, InputNode, OutputNode } from '../types';
 
-// export default [
-//   {
-//     id: '1',
-//     type: 'input',
-//     data: { label: 'Input' },
-//     position: { x: 250, y: 25 },
-//   },
-
-//   {
-//     id: '2',
-//     data: { label: 'Default' },
-//     position: { x: 100, y: 125 },
-//   },
-//   {
-//     id: '3',
-//     type: 'output',
-//     data: { label: 'Output' },
-//     position: { x: 250, y: 250 },
-//   },
-// ] as Node[];
-
-export const initialInputNodes: Node[] = [
+export const initialInputNodes: InputNode[] = [
   {
     id: 'i1',
     type: 'customInput',
@@ -48,7 +27,7 @@ export const initialInputNodes: Node[] = [
   },
 ];
 
-export const initialChoiceNodes: Node[] = [
+export const initialChoiceNodes: ChoiceNode[] = [
   {
     id: 'c1',
     type: 'customChoice',
@@ -75,10 +54,10 @@ export const initialChoiceNodes: Node[] = [
   },
 ];
 
-export const initialOutputNode: Node = {
+export const initialOutputNode: OutputNode = {
   id: 'o1',
   type: 'customOutput',
-  data: { choiceNodes: [...initialChoiceNodes] },
+  data: {},
   position: { x: 300, y: 600 },
 };
 

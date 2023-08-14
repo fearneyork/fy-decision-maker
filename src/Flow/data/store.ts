@@ -15,46 +15,35 @@ import {
 
 import { initialNodes } from './nodes';
 import { initialEdges } from './edges';
+import { Attributes, ChoiceNode, InputNode, OutputNode, Values } from '../types';
 
 export type RFState = {
-  nodes: Node[];
+  nodes: Array<InputNode | OutputNode | ChoiceNode>;
   edges: Edge[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  updateNodeValues: (nodeId: string, value: string, attribute: string) => void;
+  updateNodeValues: (nodeId: string, value: string, attribute: Attributes) => void;
   winner: string;
   updateWeightValues: (nodeId: string, value: string) => void;
 };
 
-type Values = {
-  calories: string;
-  cost: string;
-  protein: string;
-  taste: string;
-  score: string;
-};
 
-const getScore = (values: Values, weighting: string[]) => {
+const getScore = (values: Values, weighting: string[]): string => {
   const { score, ...rest } = values;
   const weighted = Object.values(rest).map((value, i) => +value * +weighting[i])
   return String(weighted.reduce((sum, curr) => sum + curr))
 };
 
-const getWeighting = (nodes: Node[]) => {
-  return nodes.filter((node) => {
-    if (node.type === "customInput") {
-      return node.data.value
-    }
-  }).map(node => node.data.value)
+const getWeighting = (nodes: Array<InputNode | OutputNode | ChoiceNode>): string[] => {
+  const InputNodes = nodes.filter((node): node is InputNode => node.type === "customInput")
+  return InputNodes.map(node => String(node.data.value))
 }
 
-const getWinner = (nodes: Node[]) => {
-  const inOrder = nodes.filter((node) => {
-    if (node.type === "customChoice") {
-      return node
-    }
-  }).map(node => { return { score: node.data.values.score, choice: node.data.label } }).sort((a, b) => b.score - a.score)
+const getWinner = (nodes: Array<InputNode | OutputNode | ChoiceNode>): string => {
+  const ChoiceNodes = nodes.filter((node): node is ChoiceNode => node.type === "customChoice")
+
+  const inOrder = ChoiceNodes.map(node => { return { score: node.data.values.score, choice: node.data.label } }).sort((a, b) => +b.score - +a.score)
 
   if (inOrder[0].score === '0') {
     return 'N/A'
@@ -75,7 +64,7 @@ const useStore = create<RFState>((set, get) => ({
   edges: initialEdges,
   onNodesChange: (changes: NodeChange[]) => {
     set({
-      nodes: applyNodeChanges(changes, get().nodes),
+      nodes: applyNodeChanges(changes, get().nodes as Node[]) as Array<InputNode | OutputNode | ChoiceNode>,
     });
   },
   onEdgesChange: (changes: EdgeChange[]) => {
@@ -88,10 +77,10 @@ const useStore = create<RFState>((set, get) => ({
       edges: addEdge(connection, get().edges),
     });
   },
-  updateNodeValues: (nodeId: string, value: string, attribute: string) => {
+  updateNodeValues: (nodeId: string, value: string, attribute: Attributes) => {
     set({
       nodes: get().nodes.map((node) => {
-        if (node.id === nodeId) {
+        if (node.id === nodeId && node.type === "customChoice") {
           node.data = {
             ...node.data, values: {
               ...node.data.values,
@@ -112,8 +101,8 @@ const useStore = create<RFState>((set, get) => ({
   updateWeightValues: (nodeId: string, value: string) => {
     set({
       nodes: get().nodes.map((node) => {
-        if (node.id === nodeId) {
-          node.data = { ...node.data, value: value };
+        if (node.id === nodeId && node.type === "customInput") {
+          node.data = { ...node.data, value: +value };
         }
 
         return node;

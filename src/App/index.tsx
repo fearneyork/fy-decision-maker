@@ -1,11 +1,11 @@
-import {Flow} from '../Flow';
+import { Flow } from '../Flow';
 
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">React Flow - CRA Example</header>
+      <header className="App-header">Fearne's Decision Maker</header>
       <Flow />
     </div>
   );
