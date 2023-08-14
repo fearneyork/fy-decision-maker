@@ -1,53 +1,45 @@
-# Getting Started with Create React App
+# 🌿 Fearne's Decision Maker 🤔
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
+Hi, I'm Fearne 👋 
 
-## Fearne's Notes
- - Started project with create react app, for a small tech tech proof of concept I though create react app is okay down to scope of project.
-    - If the project had a longer runway I would consider using next.js if I felt some of the advanced featured would be used. However for a small proejct I think this is suitable as a way to hit the ground running.
+Thank you for taking a look through the repository as well as the hosted version on [Netlify](https://fearnes-decision-maker.netlify.app).
 
- - I also used an example of using CRA with react flow to get started quickly, and get to use my time on the more meaningful code.
- - https://github.com/wbkd/react-flow-example-apps/tree/main/reactflow-create-react-app
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). I decided to use Create React App for a few reasons, mainly because it is quick and easy to set up, familiar, and works pretty well out of the box for deployments with Netlify.
 
-## Available Scripts
+Another thing I utilised was an example of using React Flow with Create React App, as a template so I could build on top of it quickly. Link [here](https://github.com/wbkd/react-flow-example-apps/tree/main/reactflow-create-react-app).
 
-In the project directory, you can run:
+## Limitations
+As previously mentioned, I used Create React App as a way to bootstrap this project. unfortunately this method of bootstrapping a project is quite bloated. If this was a longer term project, I would consider other options like Next.js, if the product requirements matched up with any additional features.
 
-### `npm start`
+With it being an MVP version of a decision maker, I chose to forgoe testing in favour of exploring two libraries that I'd never used before (React Flow & Zustand). If this was production code I would build tests around the code as I go. 
+
+As a bigger project I would lean into better compartmentalisation of components and/or using a component library. 
+
+## Local Setup
+Please find below the versioning I have used so you can make sure everything runs okay!\
+`node: v20.3.0`\
+`npm: v9.6.7`\
+`nvm: v0.39.1`
+
+
+## Scripts
+I went with npm as my packages manager so run the follwing to install packages, build and start the project locally.\
+
+In the repo directory, you can run:
+
+### `npm i`
+
+Installs required packages.
+
+### `npm run start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Deployed Decision Maker
+Visit [Fearne's Decision Maker](https://fearnes-decision-maker.netlify.app) to have a play around without needing to run locally.
